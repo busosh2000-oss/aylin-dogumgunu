@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#4a1a7a"/>
+  <g fill="#000000" opacity="0.15">
+    <rect x="0" y="0" width="400" height="20"/>
+    <rect x="0" y="380" width="400" height="20"/>
+  </g>
+  <g fill="#f3e8ff">
+    <rect x="176" y="150" width="16" height="16"/>
+    <rect x="208" y="150" width="16" height="16"/>
+    <rect x="160" y="166" width="16" height="16"/>
+    <rect x="192" y="166" width="16" height="16"/>
+    <rect x="224" y="166" width="16" height="16"/>
+    <rect x="176" y="182" width="16" height="16"/>
+    <rect x="208" y="182" width="16" height="16"/>
+    <rect x="192" y="198" width="16" height="16"/>
+  </g>
+  <text x="200" y="260" font-family="monospace" font-size="18" fill="#f3e8ff" text-anchor="middle" opacity="0.85">ANI #06</text>
+</svg>
