@@ -6,6 +6,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   initStartButton();
   initScrollWisteria();
+  initWisteriaSway();
   initNavHighlight();
   initGallery();
   initQuiz();
@@ -53,19 +54,13 @@ function initScrollWisteria() {
   let ticking = false;
 
   function update() {
-    const rect = wisteria.getBoundingClientRect();
+    const rect = section.getBoundingClientRect();
     const vh = window.innerHeight;
-    const fullHeight = wisteria.offsetHeight;
-    // progress: 0 when the flower's bottom just peeks in at the bottom of the
-    // viewport, 1 when it has fully scrolled past the top — ties the growth
-    // to the flower's own scroll-through, not the section's
-    const total = fullHeight + vh;
-    let progress = (vh - rect.top) / total;
+    let progress = 1 - rect.top / vh;
     progress = Math.min(1, Math.max(0, progress));
-    // reveal the flower from the stem downward, at its real proportions,
-    // like new growth is appearing beneath what's already there
-    const hiddenBelow = (1 - progress) * 100;
-    wisteria.style.clipPath = `inset(0 0 ${hiddenBelow.toFixed(1)}% 0)`;
+    const scale = 0.3 + progress * 0.7;
+    wisteria.style.transform = `scale(${scale.toFixed(3)})`;
+    wisteria.style.opacity = progress.toFixed(3);
     ticking = false;
   }
 
@@ -76,6 +71,28 @@ function initScrollWisteria() {
     }
   });
   update();
+}
+
+/* ---------- 2b) Tap/click the wisteria to make it sway ---------- */
+
+function initWisteriaSway() {
+  const bunch = document.getElementById("wisteria-bunch");
+  if (!bunch) return;
+
+  function sway() {
+    bunch.classList.remove("swaying");
+    void bunch.offsetWidth; // restart the animation even if clicked mid-sway
+    bunch.classList.add("swaying");
+  }
+
+  bunch.addEventListener("click", sway);
+  bunch.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      sway();
+    }
+  });
+  bunch.addEventListener("animationend", () => bunch.classList.remove("swaying"));
 }
 
 /* ---------- 3) Nav active section highlight ---------- */
