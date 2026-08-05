@@ -33,76 +33,99 @@ const GALLERY_ITEMS = [
 
 /* ============================================================
    2) QUIZ — "Aylin'i Ne Kadar İyi Tanıyorsun?"
-   options: 4 şıklık dizi
+   options: şıklar dizisi (sayısı soruya göre değişebilir)
    correct: doğru cevabın options içindeki sırası (0'dan başlar)
-   Şimdilik örnek/placeholder sorular var, gerçek sorularınla değiştir.
    En fazla 50 soru eklenebilir.
 ============================================================ */
 const QUIZ_QUESTIONS = [
   {
-    question: "Aylin'e göre Avatar: The Last Airbender'da en iyi bükücü kim?",
-    options: ["Aang", "Zuko", "Toph", "Katara"],
-    correct: 2,
-  },
-  {
-    question: "Yüzüklerin Efendisi'nde Aylin'in favori karakteri kim?",
-    options: ["Frodo", "Legolas", "Aragorn", "Samwise Gamgee"],
-    correct: 3,
-  },
-  {
-    question: "Glee'de Aylin'in en sevdiği düet hangisi? (placeholder — gerçek cevapla değiştir)",
-    options: [
-      "Don't Stop Believin'",
-      "Defying Gravity",
-      "Landslide",
-      "Rumour Has It / Someone Like You",
-    ],
+    question: "Aylin'in en sevdiği renk hangisi?",
+    options: ["Pembe", "Mor", "Ametist moru"],
     correct: 1,
   },
   {
-    question: "Tim Burton filmlerinden Aylin'in en sevdiği hangisi?",
+    question: "Aylin'in en sevdiği çiçek hangisi?",
+    options: ["Lavanta", "Menekşe", "Mor salkım"],
+    correct: 2,
+  },
+  {
+    question: "Aylin'in en sevdiği yönetmen kim?",
+    options: ["Wes Anderson", "Denis Villeneuve", "Tim Burton"],
+    correct: 2,
+  },
+  {
+    question: "Aylin'in kişiliğini en iyi anlatan kelime hangisi?",
+    options: ["Umursamaz", "Anksiyetik", "Düşünceli"],
+    correct: 1,
+  },
+  {
+    question: "Aylin dört elementten hangisi olurdu?",
+    options: ["Hava", "Toprak", "Su", "Ateş"],
+    correct: 2,
+  },
+  {
+    question: "Aylin'in en sevdiği alkol hangisi?",
+    options: ["Bira", "Gin", "Jager"],
+    correct: 2,
+  },
+  {
+    question: "Aylin'in en sevdiği aile üyesi kimdir?",
+    options: ["Annesi", "Babası", "Kardeşi", "Babaannesi"],
+    correct: 3,
+  },
+  {
+    question: "Zombi saldırısında Aylin ne yapardı?",
+    options: ["Saklanırdı", "Savaşırdı", "Kafasına sıkardı"],
+    correct: 2,
+  },
+  {
+    question: "Anaokulunda Aylin'in yaşadığı olay?",
+    options: ["Kafası dolaba sıkıştırıldı", "Yemeğine çöpe atıldı", "Dövüldü"],
+    correct: 0,
+  },
+  {
+    question: "Aylin aşağıdaki 7 ölümcül günahtan hangisidir?",
+    options: ["Kıskançlık-kibir-öfke", "Tembellik-öfke-kibir", "Tembellik-Oburluk-Öfke"],
+    correct: 2,
+  },
+  {
+    question: "Hangisi Aylin'in en büyük korkularından değildir?",
     options: [
-      "Edward Scissorhands",
-      "Corpse Bride",
-      "Alice in Wonderland",
-      "The Nightmare Before Christmas",
+      "Terlik giydiğinde toplu taşımada ayağına basılması",
+      "Sinemaya geç kalması",
+      "Babaannesiyle yalnız kalması",
+      "Böcek ısırması",
+    ],
+    correct: 3,
+  },
+  {
+    question: "Aylin'in babaannesinin adı nedir?",
+    options: ["Zinnur", "Zeliha", "Mukaddes"],
+    correct: 0,
+  },
+  {
+    question: "Aylin'in tezinin adı nedir?",
+    options: [
+      "Çizgi romanların internet üzerinden yayınının telif hakkı problemi kapsamında incelenmesi",
+      "Çizgi romanların türkçeye uyarlanmasında yapılan telif hakkı problemlerinin incelenmesi",
+      "Çizgi romanların korsan yayınlarının telif hakkı kapsamında etik olarak incelenmesi",
     ],
     correct: 0,
   },
   {
-    question: "HIMYM'de Aylin'e göre en 'legendary' karakter kim?",
-    options: ["Ted", "Marshall", "Barney", "Robin"],
+    question: "Aylin Berkay ile neden evlendi?",
+    options: ["Sarışın olduğu için", "Aşık olduğu için", "Avrupa vatandaşı olduğu için"],
     correct: 2,
   },
   {
-    question: "Aylin'in favori anime türü hangisi? (placeholder)",
-    options: ["Shonen / Aksiyon", "Slice of Life", "Fantastik", "Romantik Komedi"],
+    question: "Aylin nerelidir?",
+    options: ["Ordu", "Trabzon", "Giresun"],
     correct: 1,
   },
   {
-    question: "Aylin'in en sevdiği mevsim hangisi? (placeholder — ortak anıyla değiştir)",
-    options: ["İlkbahar", "Yaz", "Sonbahar", "Kış"],
-    correct: 0,
-  },
-  {
-    question: "Aramızdaki inside joke'a göre Aylin en çok neyden korkar? (placeholder)",
-    options: ["Örümcekler", "Geç kalmak", "Sunum yapmak", "Deniz"],
-    correct: 1,
-  },
-  {
-    question: "Aylin'in vazgeçilmez atıştırmalığı nedir? (placeholder)",
-    options: ["Çikolata", "Cips", "Meyve", "Kahve + kurabiye"],
-    correct: 3,
-  },
-  {
-    question: "Aylin'e sorulsa 'hayattaki mottom' derdi ki: (placeholder)",
-    options: [
-      "Her şey yoluna girer",
-      "Bir dahaki sefere daha iyi",
-      "Gülmek bedava",
-      "Kahve olmadan olmaz",
-    ],
-    correct: 2,
+    question: "Aylin'in en sevmediği Buse hangisidir?",
+    options: ["Gıcık Buse", "Mutsuz Buse", "Aç Buse", "Huysuz Buse", "Hepsi"],
+    correct: 4,
   },
 ];
 
