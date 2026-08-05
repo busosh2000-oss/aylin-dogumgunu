@@ -218,9 +218,8 @@ body::before {
 
 .grow-wisteria {
   width: min(60vw, 320px);
-  transform-origin: top center;
-  transform: scaleY(0);
-  will-change: transform;
+  clip-path: inset(0 0 100% 0);
+  will-change: clip-path;
 }
 
 .transition-hint {
