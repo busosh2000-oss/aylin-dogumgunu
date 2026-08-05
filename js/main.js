@@ -55,8 +55,6 @@ function initScrollWisteria() {
   function update() {
     const rect = wisteria.getBoundingClientRect();
     const vh = window.innerHeight;
-    // use offsetHeight (layout size, ignores our own scaleY transform) so the
-    // growth math doesn't feed back into itself as the flower stretches
     const fullHeight = wisteria.offsetHeight;
     // progress: 0 when the flower's bottom just peeks in at the bottom of the
     // viewport, 1 when it has fully scrolled past the top — ties the growth
@@ -64,8 +62,10 @@ function initScrollWisteria() {
     const total = fullHeight + vh;
     let progress = (vh - rect.top) / total;
     progress = Math.min(1, Math.max(0, progress));
-    // stretch the flower downward from the stem, like it's actually growing
-    wisteria.style.transform = `scaleY(${progress.toFixed(3)})`;
+    // reveal the flower from the stem downward, at its real proportions,
+    // like new growth is appearing beneath what's already there
+    const hiddenBelow = (1 - progress) * 100;
+    wisteria.style.clipPath = `inset(0 0 ${hiddenBelow.toFixed(1)}% 0)`;
     ticking = false;
   }
 
