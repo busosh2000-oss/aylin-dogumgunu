@@ -216,10 +216,63 @@ body::before {
   overflow: hidden;
 }
 
-.grow-wisteria {
-  width: min(60vw, 320px);
-  clip-path: inset(0 0 100% 0);
-  will-change: clip-path;
+.wisteria-grow {
+  width: min(85vw, 460px);
+  transform: scale(0.3);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.wisteria-bunch {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.05;
+  cursor: pointer;
+}
+
+.wisteria-branch {
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.35));
+}
+
+.branch-center {
+  left: 50%;
+  width: 48%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.branch-left {
+  left: 4%;
+  top: 8%;
+  width: 36%;
+  z-index: 2;
+}
+
+.branch-right {
+  right: 4%;
+  top: 8%;
+  width: 36%;
+  z-index: 2;
+}
+
+.wisteria-bunch.swaying {
+  animation: bunchSway 1s ease-in-out;
+}
+
+@keyframes bunchSway {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-4deg);
+  }
+  75% {
+    transform: rotate(4deg);
+  }
 }
 
 .transition-hint {
