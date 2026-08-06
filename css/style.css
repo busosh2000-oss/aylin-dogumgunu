@@ -17,6 +17,8 @@
   --text-light: #f3e8ff;
   --gold: #ffd166;
   --shadow-hard: #0a0514;
+  --success: #5fd37a;
+  --danger: #ff5c7a;
 
   --font-pixel: "Press Start 2P", monospace;
   --font-body: "VT323", monospace;
@@ -289,6 +291,23 @@ body::before {
 }
 
 /* ==========================================================
+   2b) HOME PLACEHOLDER NOTE SECTION
+   ========================================================== */
+.home-note-section {
+  text-align: center;
+}
+
+.home-note-placeholder {
+  max-width: 640px;
+  margin: 0 auto;
+  border: 3px dashed var(--purple-4);
+  padding: 48px 24px;
+  color: var(--lavender);
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+/* ==========================================================
    3) NAV
    ========================================================== */
 .main-nav {
@@ -313,37 +332,70 @@ body::before {
 
 .nav-logo {
   font-family: var(--font-pixel);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: var(--gold);
   white-space: nowrap;
 }
 
-.nav-links {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 6px;
+.nav-dropdown {
+  position: relative;
 }
 
-.nav-links a {
-  display: inline-block;
+.nav-dropdown-toggle {
   font-family: var(--font-pixel);
-  font-size: 0.55rem;
+  font-size: 0.6rem;
   color: var(--text-light);
   background: var(--purple-2);
   border: 2px solid var(--purple-4);
-  padding: 8px 10px;
-  transition: background 0.15s ease, transform 0.1s ease;
+  padding: 10px 14px;
+  transition: background 0.15s ease;
 }
 
-.nav-links a:hover {
+.nav-dropdown-toggle:hover,
+.nav-dropdown.open .nav-dropdown-toggle {
   background: var(--purple-4);
 }
 
-.nav-links a.active {
+.nav-dropdown-menu {
+  list-style: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  display: none;
+  flex-direction: column;
+  min-width: 220px;
+  background: var(--bg-darkest);
+  border: 2px solid var(--purple-4);
+  box-shadow: 6px 6px 0 var(--shadow-hard);
+  z-index: 60;
+  overflow: hidden;
+}
+
+.nav-dropdown.open .nav-dropdown-menu {
+  display: flex;
+}
+
+.nav-dropdown-menu a {
+  display: block;
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  color: var(--text-light);
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--purple-2);
+  transition: background 0.15s ease;
+}
+
+.nav-dropdown-menu li:last-child a {
+  border-bottom: none;
+}
+
+.nav-dropdown-menu a:hover {
+  background: var(--purple-2);
+}
+
+.nav-dropdown-menu a.active {
   background: var(--gold);
   color: var(--bg-darkest);
-  border-color: var(--gold);
 }
 
 /* ==========================================================
@@ -380,20 +432,49 @@ body::before {
 }
 
 /* ==========================================================
-   4) GALLERY
+   4) GALLERY — wavy drag-scroll strip
    ========================================================== */
-.gallery-grid {
+.wavy-counter {
+  text-align: center;
+  font-family: var(--font-pixel);
+  font-size: 0.8rem;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.wavy-gallery {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  cursor: grab;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.wavy-gallery::-webkit-scrollbar {
+  display: none;
+}
+
+.wavy-gallery.dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.wavy-track {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px 16px;
-  padding: 20px 0 40px;
+  align-items: center;
+  gap: 30px;
+  width: max-content;
+  padding: 70px 25% 90px;
 }
 
 .gallery-card {
   position: relative;
-  width: 160px;
-  height: 160px;
+  flex: 0 0 auto;
+  width: 170px;
+  height: 170px;
   background: var(--purple-2);
   border: 3px solid var(--purple-4);
   box-shadow: 5px 5px 0 var(--shadow-hard);
@@ -432,22 +513,7 @@ body::before {
   transition: opacity 0.2s ease;
 }
 
-/* scattered look via rotation variants */
-.gallery-card:nth-child(4n + 1) {
-  transform: rotate(-4deg);
-}
-.gallery-card:nth-child(4n + 2) {
-  transform: rotate(3deg) translateY(10px);
-}
-.gallery-card:nth-child(4n + 3) {
-  transform: rotate(-2deg) translateY(-6px);
-}
-.gallery-card:nth-child(4n) {
-  transform: rotate(4deg);
-}
-
 .gallery-card:hover {
-  transform: scale(1.05) rotate(0deg) !important;
   box-shadow: 7px 7px 0 var(--shadow-hard);
   z-index: 5;
 }
@@ -457,7 +523,7 @@ body::before {
 }
 
 .gallery-card.active {
-  transform: scale(1.9) rotate(0deg) !important;
+  transform: scale(1.6) rotate(0deg) translateY(0) !important;
   z-index: 20;
   box-shadow: 10px 10px 0 var(--shadow-hard);
 }
@@ -471,6 +537,7 @@ body::before {
   color: var(--lavender);
   font-size: 1rem;
   opacity: 0.7;
+  margin-top: 20px;
 }
 
 /* ==========================================================
@@ -520,10 +587,20 @@ body::before {
   background: var(--purple-4);
 }
 
-.quiz-option.selected {
-  background: var(--gold);
+.quiz-option:disabled {
+  cursor: default;
+}
+
+.quiz-option.correct {
+  background: var(--success);
   color: var(--bg-darkest);
-  border-color: var(--gold);
+  border-color: var(--success);
+}
+
+.quiz-option.incorrect {
+  background: var(--danger);
+  color: var(--bg-darkest);
+  border-color: var(--danger);
 }
 
 .quiz-actions {
@@ -761,22 +838,97 @@ body::before {
 }
 
 /* ==========================================================
+   8) AYLO GAME
+   ========================================================== */
+.game-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 12px;
+  font-family: var(--font-pixel);
+  font-size: 0.75rem;
+  color: var(--gold);
+}
+
+.game-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  border: 4px solid var(--purple-4);
+  box-shadow: 8px 8px 0 var(--shadow-hard);
+  background: var(--bg-darkest);
+}
+
+#aylo-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  cursor: pointer;
+}
+
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(15, 8, 25, 0.75);
+  text-align: center;
+  padding: 20px;
+}
+
+.game-overlay.hidden {
+  display: none;
+}
+
+.game-overlay h3 {
+  font-family: var(--font-pixel);
+  font-size: 1rem;
+  color: var(--text-light);
+}
+
+.game-overlay p {
+  font-size: 1.2rem;
+  color: var(--lavender-light);
+}
+
+.game-hint {
+  margin-top: 16px;
+  color: var(--lavender);
+  font-size: 1rem;
+  opacity: 0.8;
+  text-align: center;
+}
+
+/* ==========================================================
    Responsive tweaks
    ========================================================== */
 @media (max-width: 640px) {
   .wisteria-side {
     width: 90px;
   }
-  .nav-links a {
+  .nav-dropdown-toggle {
     font-size: 0.5rem;
-    padding: 7px 8px;
+    padding: 8px 10px;
   }
   .gallery-card {
     width: 130px;
     height: 130px;
   }
   .gallery-card.active {
-    transform: scale(1.5) rotate(0deg) !important;
+    transform: scale(1.5) rotate(0deg) translateY(0) !important;
   }
   .section {
     padding: 60px 16px;

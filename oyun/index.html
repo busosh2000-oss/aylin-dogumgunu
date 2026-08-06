@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aylo Game 💜</title>
+  <meta name="description" content="Aylin'i temsil eden Aylo'yu engellerden zıplatarak kaçır" />
+  <link rel="icon" type="image/svg+xml" href="../assets/wisteria.svg" />
+  <meta name="theme-color" content="#1a0a2e" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body data-page="game">
+
+  <!-- NAV -->
+  <nav id="main-nav" class="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">✿ AYLIN'İN DOĞUM GÜNÜ</a>
+      <div class="nav-dropdown">
+        <button id="nav-dropdown-toggle" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+          AYLIN'IN DÜNYASI ▾
+        </button>
+        <ul id="nav-dropdown-menu" class="nav-dropdown-menu">
+          <li><a href="../komik-anlar/" data-page="gallery">Komik Anları</a></li>
+          <li><a href="../ne-kadar-taniyorsun/" data-page="quiz">Ne Kadar Tanıyorsun?</a></li>
+          <li><a href="../mektuplar/" data-page="letters">Mektuplar</a></li>
+          <li><a href="../sarkilar/" data-page="music">Şarkılar</a></li>
+          <li><a href="../oyun/" data-page="game">Oyun</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section game-section">
+      <h1 class="section-title">Aylo Game</h1>
+      <p class="section-sub">Engellerden zıpla, skoru yükselt 🏃‍♀️</p>
+
+      <div class="game-hud">
+        <span id="game-score">SKOR: 0</span>
+        <span id="game-best">EN İYİ: 0</span>
+      </div>
+
+      <div class="game-wrap">
+        <canvas id="aylo-canvas" width="300" height="100"></canvas>
+        <div id="game-overlay" class="game-overlay">
+          <h3>AYLO GAME</h3>
+          <p>Başlamak için boşluk tuşuna bas ya da dokun</p>
+        </div>
+      </div>
+
+      <p class="game-hint">Zıplamak için BOŞLUK / YUKARI OK tuşuna bas ya da oyuna dokun</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <img class="footer-wisteria pixel-art" src="../assets/wisteria.svg" alt="" aria-hidden="true" />
+    <p>made with 💜 for Aylin</p>
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/game.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aylin'e Mektuplar 💜</title>
+  <meta name="description" content="Aylin için yazılmış mektuplar" />
+  <link rel="icon" type="image/svg+xml" href="../assets/wisteria.svg" />
+  <meta name="theme-color" content="#1a0a2e" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body data-page="letters">
+
+  <!-- NAV -->
+  <nav id="main-nav" class="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">✿ AYLIN'İN DOĞUM GÜNÜ</a>
+      <div class="nav-dropdown">
+        <button id="nav-dropdown-toggle" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+          AYLIN'IN DÜNYASI ▾
+        </button>
+        <ul id="nav-dropdown-menu" class="nav-dropdown-menu">
+          <li><a href="../komik-anlar/" data-page="gallery">Komik Anları</a></li>
+          <li><a href="../ne-kadar-taniyorsun/" data-page="quiz">Ne Kadar Tanıyorsun?</a></li>
+          <li><a href="../mektuplar/" data-page="letters">Mektuplar</a></li>
+          <li><a href="../sarkilar/" data-page="music">Şarkılar</a></li>
+          <li><a href="../oyun/" data-page="game">Oyun</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section letters-section">
+      <h1 class="section-title">Aylin'e Mektuplar</h1>
+      <p class="section-sub">Zarfa dokun, kalpten gelenleri oku 💌</p>
+      <div id="letters-grid" class="letters-grid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <img class="footer-wisteria pixel-art" src="../assets/wisteria.svg" alt="" aria-hidden="true" />
+    <p>made with 💜 for Aylin</p>
+  </footer>
+
+  <!-- LETTER MODAL -->
+  <div id="letter-modal" class="letter-modal hidden">
+    <div class="letter-modal-inner">
+      <button id="letter-modal-close" class="modal-close" aria-label="Kapat">✕</button>
+      <h3 id="letter-modal-name"></h3>
+      <p id="letter-modal-text"></p>
+    </div>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

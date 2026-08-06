@@ -10,25 +10,27 @@
    1) GALERİ — "Aylin'in Komik Anları"
    type: "image" veya "video"
    src : dosya yolu (assets/gallery/ klasörüne gerçek foto/video atıp
-         buraya dosya adını yaz. Şu an placeholder görseller kullanılıyor.)
+         buraya "../assets/gallery/dosyaadi.jpg" şeklinde yaz — başındaki
+         "../" kısmını silme, galeri sayfası bir alt klasörde olduğu için
+         gerekli. Şu an placeholder görseller kullanılıyor.)
    caption: görselin altında/tıklanınca görünecek kısa açıklama (opsiyonel, boş bırakılabilir)
    En fazla 100 öğe eklenebilir, alttaki satırları çoğaltman yeterli.
 ============================================================ */
 const GALLERY_ITEMS = [
-  { type: "image", src: "assets/gallery/01.svg", caption: "" },
-  { type: "image", src: "assets/gallery/02.svg", caption: "" },
-  { type: "image", src: "assets/gallery/03.svg", caption: "" },
-  { type: "image", src: "assets/gallery/04.svg", caption: "" },
-  { type: "image", src: "assets/gallery/05.svg", caption: "" },
-  { type: "image", src: "assets/gallery/06.svg", caption: "" },
-  { type: "image", src: "assets/gallery/07.svg", caption: "" },
-  { type: "image", src: "assets/gallery/08.svg", caption: "" },
-  { type: "image", src: "assets/gallery/09.svg", caption: "" },
-  { type: "image", src: "assets/gallery/10.svg", caption: "" },
-  { type: "image", src: "assets/gallery/11.svg", caption: "" },
-  { type: "image", src: "assets/gallery/12.svg", caption: "" },
-  { type: "image", src: "assets/gallery/13.svg", caption: "" },
-  { type: "image", src: "assets/gallery/14.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/01.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/02.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/03.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/04.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/05.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/06.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/07.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/08.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/09.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/10.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/11.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/12.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/13.svg", caption: "" },
+  { type: "image", src: "../assets/gallery/14.svg", caption: "" },
 ];
 
 /* ============================================================
