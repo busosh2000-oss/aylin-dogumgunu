@@ -1,6 +1,6 @@
 /*
   Aylo Game — Chrome'un "dinozor oyunu"nun Aylin temalı, pembe saçlı
-  piksel karakterli versiyonu. Sadece oyun/index.html sayfasında çalışır.
+  piksel karakterli versiyonu. Sadece oyun/aylo-game/index.html sayfasında çalışır.
 */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -12,15 +12,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const scoreEl = document.getElementById("game-score");
   const bestEl = document.getElementById("game-best");
 
-  const W = canvas.width;
-  const H = canvas.height;
+  // draw everything in a fixed 300x100 logical grid, but back the canvas
+  // with more real pixels so it stays crisp when stretched to fill the page
+  const W = 300;
+  const H = 100;
+  const RENDER_SCALE = canvas.width / W || 2;
+  ctx.scale(RENDER_SCALE, RENDER_SCALE);
+
   const GROUND_Y = 84;
 
+  // speed curve modeled on the real Chrome dino game (start 6, max 13,
+  // +0.001/frame on a 600px-wide canvas) scaled down to our 300px stage
   const GRAVITY = 0.7;
   const JUMP_VELOCITY = -9.2;
-  const BASE_SPEED = 2.6;
-  const MAX_SPEED = 7.5;
-  const ACCEL_PER_FRAME = 0.0035; // steady ramp, like the original runner game
+  const BASE_SPEED = 3;
+  const MAX_SPEED = 6.5;
+  const ACCEL_PER_FRAME = 0.0005;
 
   const COLORS = {
     sky1: "#1a0a2e",
@@ -33,17 +40,28 @@ document.addEventListener("DOMContentLoaded", () => {
     hairDark: "#e05fa0",
     outfit: "#9d4edd",
     legs: "#2d1451",
-    obstacle: "#0f0819",
+    obstacle: "#2d1451",
     obstacleEdge: "#6b2fb3",
     dragonBody: "#4d8c3f",
     dragonWing: "#2f5c26",
     dragonEye: "#ffd166",
   };
 
+  function roundedRect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+    ctx.fill();
+  }
+
   const STARS = Array.from({ length: 18 }, () => ({
     x: Math.random() * W,
     y: Math.random() * (GROUND_Y - 10),
-    size: Math.random() < 0.5 ? 1 : 2,
+    size: Math.random() < 0.5 ? 1 : 1.6,
   }));
 
   let bestScore = 0;
@@ -124,12 +142,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function spawnObstacle() {
-    if (Math.random() < 0.3) {
+    if (Math.random() < 0.4) {
       // flying dragon: sometimes low (jump over it), sometimes high (just run under it)
       const flyingHigh = Math.random() < 0.5;
       const h = 9;
       const y = flyingHigh ? 12 + Math.random() * 8 : GROUND_Y - h;
-      obstacles.push({ x: W + 10, w: 15, h, y, type: "dragon" });
+      obstacles.push({ x: W + 10, w: 16, h, y, type: "dragon" });
     } else {
       const types = [
         { w: 6, h: 12 },
@@ -139,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const t = types[Math.floor(Math.random() * types.length)];
       obstacles.push({ x: W + 10, w: t.w, h: t.h, y: GROUND_Y - t.h, type: "block" });
     }
-    nextSpawnIn = 80 + Math.random() * 90;
+    nextSpawnIn = 70 + Math.random() * 80;
   }
 
   function drawBackground() {
@@ -156,36 +174,56 @@ document.addEventListener("DOMContentLoaded", () => {
     const tickSpacing = 18;
     const offset = groundOffset % tickSpacing;
     for (let x = -offset; x < W; x += tickSpacing) {
-      ctx.fillRect(x, GROUND_Y + 3, 6, 2);
+      roundedRect(x, GROUND_Y + 3, 6, 2, 1);
     }
   }
 
   function drawAylo() {
-    const x = player.x;
-    const y = player.y;
-    // pigtails hanging behind head
+    const cx = player.x + player.w / 2;
+    const headCy = player.y + 6;
+    const headR = 6.5;
+
+    // pigtails hanging beside the head
     ctx.fillStyle = COLORS.hairDark;
-    ctx.fillRect(x, y + 2, 3, 9);
-    ctx.fillRect(x + 11, y + 2, 3, 9);
-    // head
+    ctx.beginPath();
+    ctx.arc(cx - 8, headCy + 5, 3.4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(cx + 8, headCy + 5, 3.4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // head — round face
     ctx.fillStyle = COLORS.skin;
-    ctx.fillRect(x + 3, y + 2, 8, 7);
-    // hair top / bangs
+    ctx.beginPath();
+    ctx.arc(cx, headCy, headR, 0, Math.PI * 2);
+    ctx.fill();
+
+    // hair bangs on top
     ctx.fillStyle = COLORS.hair;
-    ctx.fillRect(x + 2, y, 10, 3);
+    ctx.beginPath();
+    ctx.arc(cx, headCy, headR + 0.6, Math.PI, 0);
+    ctx.fill();
+
+    // tiny smiling face
+    ctx.fillStyle = "#1a0a2e";
+    ctx.fillRect(cx - 3, headCy - 0.5, 1.4, 1.4);
+    ctx.fillRect(cx + 1.6, headCy - 0.5, 1.4, 1.4);
+
     // body
     ctx.fillStyle = COLORS.outfit;
-    ctx.fillRect(x + 3, y + 9, 8, 7);
+    roundedRect(player.x + 2, headCy + headR - 1, 10, 8, 2);
+
     // legs
     ctx.fillStyle = COLORS.legs;
+    const legY = headCy + headR + 6;
     if (player.isJumping) {
-      ctx.fillRect(x + 4, y + 16, 6, 4);
+      roundedRect(cx - 3, legY, 6, 4, 1.5);
     } else if (legFrame === 0) {
-      ctx.fillRect(x + 3, y + 16, 3, 4);
-      ctx.fillRect(x + 8, y + 16, 3, 4);
+      roundedRect(cx - 4, legY, 3, 4, 1);
+      roundedRect(cx + 1, legY, 3, 4, 1);
     } else {
-      ctx.fillRect(x + 4, y + 16, 2, 4);
-      ctx.fillRect(x + 7, y + 16, 4, 4);
+      roundedRect(cx - 3, legY, 2, 4, 1);
+      roundedRect(cx, legY, 4, 4, 1);
     }
   }
 
@@ -196,32 +234,41 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       ctx.fillStyle = COLORS.obstacleEdge;
-      ctx.fillRect(o.x - 1, o.y - 1, o.w + 2, o.h + 2);
+      roundedRect(o.x - 1, o.y - 1, o.w + 2, o.h + 2, 2);
       ctx.fillStyle = COLORS.obstacle;
-      ctx.fillRect(o.x, o.y, o.w, o.h);
+      roundedRect(o.x, o.y, o.w, o.h, 2);
     });
   }
 
   function drawDragon(o) {
     const x = o.x;
     const y = o.y;
-    // body + tail
-    ctx.fillStyle = COLORS.dragonBody;
-    ctx.fillRect(x + 4, y + 2, 9, 4);
-    ctx.fillRect(x, y + 3, 4, 2);
-    // head
-    ctx.fillRect(x + 12, y, 3, 3);
-    ctx.fillStyle = COLORS.dragonEye;
-    ctx.fillRect(x + 14, y + 1, 1, 1);
-    // wings — alternate up/down for a flapping effect
+    // wings — alternate up/down for a flapping effect (drawn behind the body)
     ctx.fillStyle = COLORS.dragonWing;
     if (wingFrame === 0) {
-      ctx.fillRect(x + 5, y - 3, 6, 3);
-      ctx.fillRect(x + 6, y + 6, 5, 3);
+      roundedRect(x + 5, y - 4, 7, 4, 2);
+      roundedRect(x + 6, y + 7, 6, 4, 2);
     } else {
-      ctx.fillRect(x + 6, y, 5, 2);
-      ctx.fillRect(x + 6, y + 4, 5, 2);
+      roundedRect(x + 6, y, 6, 3, 1.5);
+      roundedRect(x + 6, y + 5, 6, 3, 1.5);
     }
+    // body + tail
+    ctx.fillStyle = COLORS.dragonBody;
+    ctx.beginPath();
+    ctx.ellipse(x + 8, y + 4, 6, 3.5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(x, y + 4);
+    ctx.lineTo(x + 4, y + 2);
+    ctx.lineTo(x + 4, y + 6);
+    ctx.closePath();
+    ctx.fill();
+    // head
+    ctx.beginPath();
+    ctx.arc(x + 14, y + 3, 3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = COLORS.dragonEye;
+    ctx.fillRect(x + 15, y + 1.5, 1.2, 1.2);
   }
 
   function rectsOverlap(a, b) {
@@ -279,6 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function render() {
+    ctx.clearRect(0, 0, W, H);
     drawBackground();
     drawGround();
     drawObstacles();
@@ -297,9 +345,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderReadyFrame() {
     resetGame();
-    drawBackground();
-    drawGround();
-    drawAylo();
+    render();
   }
 
   renderReadyFrame();

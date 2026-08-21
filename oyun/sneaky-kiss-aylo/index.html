@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sneaky Kiss Aylo 💜</title>
+  <meta name="description" content="Aylin ve Berkay'ı yakalanmadan öptür" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/wisteria.svg" />
+  <meta name="theme-color" content="#1a0a2e" />
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body data-page="game">
+
+  <!-- NAV -->
+  <nav id="main-nav" class="main-nav">
+    <div class="nav-inner">
+      <a href="../../index.html" class="nav-logo">✿ AYLIN'İN DOĞUM GÜNÜ</a>
+      <div class="nav-dropdown">
+        <button id="nav-dropdown-toggle" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+          AYLIN'IN DÜNYASI ▾
+        </button>
+        <ul id="nav-dropdown-menu" class="nav-dropdown-menu">
+          <li><a href="../../komik-anlar/" data-page="gallery">Anları</a></li>
+          <li><a href="../../ne-kadar-taniyorsun/" data-page="quiz">Ne Kadar Tanıyorsun?</a></li>
+          <li><a href="../../mektuplar/" data-page="letters">Mektuplar</a></li>
+          <li><a href="../../sarkilar/" data-page="music">Şarkılar</a></li>
+          <li><a href="../../oyun/" data-page="game">Oyun</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section game-section">
+      <p class="game-back"><a href="../">← Oyunlara dön</a></p>
+      <h1 class="section-title">Sneaky Kiss Aylo</h1>
+      <p class="section-sub">Aylin ile Berkay'ı yakalanmadan öptür 💋</p>
+
+      <div class="game-hud">
+        <span id="kiss-score">SKOR: 0</span>
+        <span id="kiss-best">EN İYİ: 0</span>
+      </div>
+
+      <div class="game-wrap">
+        <canvas id="kiss-canvas" class="game-canvas" width="760" height="360"></canvas>
+        <div id="kiss-overlay" class="game-overlay">
+          <h3>SNEAKY KISS AYLO</h3>
+          <p>Başlamak için dokun ya da tıkla</p>
+        </div>
+      </div>
+
+      <p class="game-hint">Etraftakiler bakarken basılı tut (gizlensinler), güvenliyken bırak — yakalanırsanız oyun biter!</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <img class="footer-wisteria pixel-art" src="../../assets/wisteria.svg" alt="" aria-hidden="true" />
+    <p>made with 💜 for Aylin</p>
+  </footer>
+
+  <script src="../../js/data.js"></script>
+  <script src="../../js/main.js"></script>
+  <script src="../../js/kiss-game.js"></script>
+</body>
+</html>

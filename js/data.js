@@ -150,7 +150,7 @@ const QUIZ_QUESTIONS = [
   },
   {
     question: "Anaokulunda Aylin'in yaşadığı olay?",
-    options: ["Kafası dolaba sıkıştırıldı", "Yemeğine çöpe atıldı", "Dövüldü"],
+    options: ["Kafası dolaba sıkıştırıldı", "Yemeği çöpe atıldı", "Dövüldü"],
     correct: 1,
   },
   {

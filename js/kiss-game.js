@@ -1,7 +1,7 @@
 /*
-  Öpücük Oyunu — "Sneaky Date" tarzı bir yakalanma oyunu. Aylin ve Berkay
-  bir bankta öpüşürken etraftakiler dönüp bakınca basılı tutup gizlenmen
-  gerekiyor. Sadece opucuk-oyunu/index.html sayfasında çalışır.
+  Sneaky Kiss Aylo — "Sneaky Date" tarzı bir yakalanma oyunu. Aylin ve
+  Berkay bir bankta öpüşürken etraftakiler dönüp bakınca basılı tutup
+  gizlenmen gerekiyor. Sadece oyun/sneaky-kiss-aylo/index.html sayfasında çalışır.
 */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -13,8 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const scoreEl = document.getElementById("kiss-score");
   const bestEl = document.getElementById("kiss-best");
 
-  const W = canvas.width;
-  const H = canvas.height;
+  // draw everything on a fixed 380x180 logical grid, but back the canvas
+  // with more real pixels so it stays crisp when stretched to fill the page
+  const W = 380;
+  const H = 180;
+  const RENDER_SCALE = canvas.width / W || 2;
+  ctx.scale(RENDER_SCALE, RENDER_SCALE);
+
   const FLOOR_Y = 150;
 
   const COLORS = {
@@ -25,6 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
     grass: "#4d6a3f",
     moon: "#f2e9c9",
     moonShadow: "#d8c99e",
+    lampPost: "#2d1451",
+    lampGlow: "#ffe9b0",
     bench: "#5a3a22",
     benchLight: "#7a5233",
     skin: "#f2c9a0",
@@ -41,13 +48,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const BERKAY = { hair: "#f2d675", hairStyle: "short", shirt: "#6b2fb3" };
 
   const BYSTANDER_DEFS = [
-    { x: 26, hair: "#ffb347", hairStyle: "short", shirt: "#8a3ffc" }, // turuncu
-    { x: 66, hair: "#ff8fc7", hairStyle: "curly", shirt: "#ffd166" }, // pembe
-    { x: W - 66 - 18, hair: "#5a3a22", hairStyle: "straight", shirt: "#9d4edd" }, // kahverengi düz
-    { x: W - 26 - 18, hair: "#7a4a2a", hairStyle: "curly", shirt: "#c77dff" }, // kahverengi kıvırcık
+    { x: 30, hair: "#ffb347", hairStyle: "short", shirt: "#8a3ffc" }, // turuncu
+    { x: 74, hair: "#ff8fc7", hairStyle: "curly", shirt: "#ffd166" }, // pembe
+    { x: W - 74 - 18, hair: "#5a3a22", hairStyle: "straight", shirt: "#9d4edd" }, // kahverengi düz
+    { x: W - 30 - 18, hair: "#7a4a2a", hairStyle: "curly", shirt: "#c77dff" }, // kahverengi kıvırcık
   ];
 
-  const BENCH = { x: 140, w: 100 };
+  const BENCH = { x: 150, w: 100 };
 
   let bestScore = 0;
   try {
@@ -59,6 +66,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let state = "ready"; // "ready" | "running" | "over"
   let bystanders, timeAlive, exposedTime, score, hiding, heartBob, rafId, lastTime;
+
+  function roundedRect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+    ctx.fill();
+  }
 
   function difficultyOf(t) {
     return Math.min(t / 1800, 1); // ramps up over ~30s of survival
@@ -129,6 +147,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ---------- scenery ---------- */
 
+  function drawLamp(x) {
+    ctx.fillStyle = COLORS.lampPost;
+    ctx.fillRect(x - 1, 60, 2, FLOOR_Y - 60);
+    ctx.fillStyle = COLORS.lampGlow;
+    const glow = ctx.createRadialGradient(x, 58, 1, x, 58, 16);
+    glow.addColorStop(0, "rgba(255,233,176,0.9)");
+    glow.addColorStop(1, "rgba(255,233,176,0)");
+    ctx.fillStyle = glow;
+    ctx.fillRect(x - 16, 42, 32, 32);
+    ctx.fillStyle = COLORS.lampGlow;
+    ctx.beginPath();
+    ctx.arc(x, 58, 4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
   function drawScene() {
     const sky = ctx.createLinearGradient(0, 0, 0, FLOOR_Y);
     sky.addColorStop(0, COLORS.sky1);
@@ -139,12 +172,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // moon
     ctx.fillStyle = COLORS.moon;
     ctx.beginPath();
-    ctx.arc(W - 40, 28, 12, 0, Math.PI * 2);
+    ctx.arc(W - 40, 28, 13, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = COLORS.moonShadow;
     ctx.beginPath();
-    ctx.arc(W - 44, 24, 3, 0, Math.PI * 2);
+    ctx.arc(W - 45, 24, 3.4, 0, Math.PI * 2);
     ctx.fill();
+
+    drawLamp(55);
+    drawLamp(W - 55);
 
     // ground
     ctx.fillStyle = COLORS.ground;
@@ -168,14 +204,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const bw = BENCH.w;
     // back posts
     ctx.fillStyle = COLORS.bench;
-    ctx.fillRect(bx + 6, 100, 4, 32);
-    ctx.fillRect(bx + bw - 10, 100, 4, 32);
+    roundedRect(bx + 6, 100, 4, 32, 1);
+    roundedRect(bx + bw - 10, 100, 4, 32, 1);
     // backrest
     ctx.fillStyle = COLORS.benchLight;
-    ctx.fillRect(bx, 100, bw, 6);
+    roundedRect(bx, 100, bw, 6, 2);
     // seat
     ctx.fillStyle = COLORS.bench;
-    ctx.fillRect(bx - 5, 128, bw + 10, 8);
+    roundedRect(bx - 5, 128, bw + 10, 8, 2);
     ctx.fillStyle = COLORS.benchLight;
     ctx.fillRect(bx - 5, 128, bw + 10, 2);
     // front legs
@@ -187,48 +223,72 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ---------- characters ---------- */
 
   function drawHead(x, headTop, hairColor, hairStyle, facing) {
+    const cx = x + 7;
+    const cy = headTop + 6;
+    const r = 6.5;
+
     if (facing === "away") {
       // back of the head — solid hair, a little fuller than the face view
       ctx.fillStyle = hairColor;
-      ctx.fillRect(x + 2, headTop - 1, 10, 12);
+      ctx.beginPath();
+      ctx.arc(cx, cy, r + 0.6, 0, Math.PI * 2);
+      ctx.fill();
       if (hairStyle === "curly") {
-        ctx.fillRect(x, headTop + 1, 2, 8);
-        ctx.fillRect(x + 12, headTop + 1, 2, 8);
+        ctx.beginPath();
+        ctx.arc(cx - r, cy + 1, 2.6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(cx + r, cy + 1, 2.6, 0, Math.PI * 2);
+        ctx.fill();
       } else if (hairStyle === "straight") {
-        ctx.fillRect(x + 1, headTop + 2, 2, 9);
-        ctx.fillRect(x + 11, headTop + 2, 2, 9);
+        roundedRect(x - 0.5, headTop + 3, 2.5, 9, 1);
+        roundedRect(x + 12, headTop + 3, 2.5, 9, 1);
       }
       return;
     }
 
-    // rounded-ish face (skin) built from tapered rows
+    // face — round skin base
     ctx.fillStyle = COLORS.skin;
-    ctx.fillRect(x + 4, headTop, 6, 2);
-    ctx.fillRect(x + 2, headTop + 2, 10, 7);
-    ctx.fillRect(x + 3, headTop + 9, 8, 2);
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fill();
 
-    // hair on top + sides, drawn after the skin so it frames the face
+    // hair cap on top, drawn after the skin so it frames the face
     ctx.fillStyle = hairColor;
-    ctx.fillRect(x + 1, headTop - 1, 12, 3);
+    ctx.beginPath();
+    ctx.arc(cx, cy, r + 0.4, Math.PI, 0);
+    ctx.fill();
     if (hairStyle === "straight") {
-      ctx.fillRect(x + 1, headTop + 2, 2, 9);
-      ctx.fillRect(x + 11, headTop + 2, 2, 9);
+      roundedRect(x - 0.5, headTop + 3, 2.5, 9, 1);
+      roundedRect(x + 12, headTop + 3, 2.5, 9, 1);
     } else if (hairStyle === "curly") {
-      ctx.fillRect(x, headTop, 3, 3);
-      ctx.fillRect(x + 11, headTop, 3, 3);
-      ctx.fillRect(x, headTop + 5, 3, 3);
-      ctx.fillRect(x + 11, headTop + 5, 3, 3);
+      ctx.beginPath();
+      ctx.arc(cx - r, cy - 1, 2.6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(cx + r, cy - 1, 2.6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(cx - r + 1, cy + 3, 2.2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(cx + r - 1, cy + 3, 2.2, 0, Math.PI * 2);
+      ctx.fill();
     }
 
     // face — eyebrows, eyes, smiling mouth
     ctx.fillStyle = COLORS.brow;
-    ctx.fillRect(x + 3, headTop + 3, 2, 1);
-    ctx.fillRect(x + 9, headTop + 3, 2, 1);
+    ctx.fillRect(cx - 4, cy - 2, 2, 1);
+    ctx.fillRect(cx + 2, cy - 2, 2, 1);
     ctx.fillStyle = COLORS.eye;
-    ctx.fillRect(x + 3, headTop + 5, 2, 2);
-    ctx.fillRect(x + 9, headTop + 5, 2, 2);
+    ctx.fillRect(cx - 4, cy, 1.6, 1.6);
+    ctx.fillRect(cx + 2.4, cy, 1.6, 1.6);
     ctx.fillStyle = COLORS.mouth;
-    ctx.fillRect(x + 5, headTop + 8, 4, 1);
+    ctx.beginPath();
+    ctx.arc(cx, cy + 3, 2, 0.15 * Math.PI, 0.85 * Math.PI);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = COLORS.mouth;
+    ctx.stroke();
   }
 
   function drawPerson(x, headTop, opts) {
@@ -237,15 +297,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const torsoH = seated ? 20 : 22;
     const legH = seated ? 5 : 26;
 
-    drawHead(x, headTop, hair, hairStyle, facing);
-
-    // torso
+    // torso (drawn first so the round head overlaps its top edge nicely)
     ctx.fillStyle = shirt;
-    ctx.fillRect(x, torsoTop, 14, torsoH);
+    roundedRect(x, torsoTop, 14, torsoH, 4);
     // legs
     ctx.fillStyle = COLORS.pants;
-    ctx.fillRect(x + 1, torsoTop + torsoH, 5, legH);
-    ctx.fillRect(x + 8, torsoTop + torsoH, 5, legH);
+    roundedRect(x + 1, torsoTop + torsoH - 2, 5, legH, 2);
+    roundedRect(x + 8, torsoTop + torsoH - 2, 5, legH, 2);
+
+    drawHead(x, headTop, hair, hairStyle, facing);
   }
 
   function drawBystanders() {
@@ -310,6 +370,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function render() {
+    ctx.clearRect(0, 0, W, H);
     drawScene();
     drawBench();
     drawBystanders();
