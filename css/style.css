@@ -749,6 +749,18 @@ body::before {
   line-height: 1.6;
 }
 
+.letter-modal-image {
+  width: 100%;
+  max-width: 320px;
+  margin: 20px auto 0;
+  border: 3px solid var(--purple-4);
+  box-shadow: 5px 5px 0 var(--shadow-hard);
+}
+
+.letter-modal-image.hidden {
+  display: none;
+}
+
 .modal-close {
   position: absolute;
   top: 10px;

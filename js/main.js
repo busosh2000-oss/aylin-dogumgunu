@@ -366,6 +366,7 @@ function initLetters() {
   const modal = document.getElementById("letter-modal");
   const modalName = document.getElementById("letter-modal-name");
   const modalText = document.getElementById("letter-modal-text");
+  const modalImage = document.getElementById("letter-modal-image");
   const closeBtn = document.getElementById("letter-modal-close");
   if (!grid || typeof LETTERS === "undefined") return;
 
@@ -381,6 +382,17 @@ function initLetters() {
       setTimeout(() => {
         modalName.textContent = `✉ ${letter.name}`;
         modalText.textContent = letter.text;
+        if (modalImage) {
+          if (letter.image) {
+            modalImage.onerror = () => modalImage.classList.add("hidden");
+            modalImage.src = letter.image;
+            modalImage.alt = `${letter.name} tarafından eklenen görsel`;
+            modalImage.classList.remove("hidden");
+          } else {
+            modalImage.removeAttribute("src");
+            modalImage.classList.add("hidden");
+          }
+        }
         modal.classList.remove("hidden");
         envelope.classList.remove("opening");
       }, 380);
