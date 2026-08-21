@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aylin'e Mektuplar 💜</title>
-  <meta name="description" content="Aylin için yazılmış mektuplar" />
+  <title>Öpücük Oyunu 💜</title>
+  <meta name="description" content="Aylin ve Berkay'ı yakalanmadan öptür" />
   <link rel="icon" type="image/svg+xml" href="../assets/wisteria.svg" />
   <meta name="theme-color" content="#1a0a2e" />
   <link rel="stylesheet" href="../css/style.css" />
 </head>
-<body data-page="letters">
+<body data-page="kissgame">
 
   <!-- NAV -->
   <nav id="main-nav" class="main-nav">
@@ -32,10 +32,24 @@
   </nav>
 
   <main>
-    <section class="section letters-section">
-      <h1 class="section-title">Aylin'e Mektuplar</h1>
-      <p class="section-sub">Zarfa dokun, kalpten gelenleri oku 💌</p>
-      <div id="letters-grid" class="letters-grid"></div>
+    <section class="section game-section">
+      <h1 class="section-title">Öpücük Oyunu</h1>
+      <p class="section-sub">Aylin ile Berkay'ı yakalanmadan öptür 💋</p>
+
+      <div class="game-hud">
+        <span id="kiss-score">SKOR: 0</span>
+        <span id="kiss-best">EN İYİ: 0</span>
+      </div>
+
+      <div class="game-wrap">
+        <canvas id="kiss-canvas" class="game-canvas" width="380" height="180"></canvas>
+        <div id="kiss-overlay" class="game-overlay">
+          <h3>ÖPÜCÜK OYUNU</h3>
+          <p>Başlamak için dokun ya da tıkla</p>
+        </div>
+      </div>
+
+      <p class="game-hint">Etraftakiler bakarken basılı tut (gizlensinler), güvenliyken bırak — yakalanırsanız oyun biter!</p>
     </section>
   </main>
 
@@ -44,17 +58,8 @@
     <p>made with 💜 for Aylin</p>
   </footer>
 
-  <!-- LETTER MODAL -->
-  <div id="letter-modal" class="letter-modal hidden">
-    <div class="letter-modal-inner">
-      <button id="letter-modal-close" class="modal-close" aria-label="Kapat">✕</button>
-      <h3 id="letter-modal-name"></h3>
-      <p id="letter-modal-text"></p>
-      <img id="letter-modal-image" class="letter-modal-image hidden" alt="" />
-    </div>
-  </div>
-
   <script src="../js/data.js"></script>
   <script src="../js/main.js"></script>
+  <script src="../js/kiss-game.js"></script>
 </body>
 </html>

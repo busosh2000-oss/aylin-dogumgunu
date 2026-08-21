@@ -183,28 +183,71 @@ function initGallery() {
     }
 
     card.addEventListener("click", () => {
-      const wasActive = card.classList.contains("active");
+      if (dragMoved) return; // this "click" was actually the end of a drag
       track.querySelectorAll(".gallery-card.active").forEach((el) => el.classList.remove("active"));
-      if (!wasActive) {
-        card.classList.add("active");
-        card.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-        if (item.type === "video" && mediaEl.play) {
-          mediaEl.play().catch(() => {});
-        }
-      }
+      card.classList.add("active");
+      card.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      openLightbox(item, index);
     });
 
     track.appendChild(card);
     cards.push(card);
   });
 
+  function openLightbox(item, index) {
+    const lightbox = document.getElementById("gallery-lightbox");
+    const content = document.getElementById("gallery-lightbox-content");
+    const caption = document.getElementById("gallery-lightbox-caption");
+    if (!lightbox || !content) return;
+
+    content.innerHTML = "";
+    let bigMedia;
+    if (item.type === "video") {
+      bigMedia = document.createElement("video");
+      bigMedia.src = item.src;
+      bigMedia.controls = true;
+      bigMedia.autoplay = true;
+      bigMedia.loop = true;
+      bigMedia.playsInline = true;
+    } else {
+      bigMedia = document.createElement("img");
+      bigMedia.src = item.src;
+      bigMedia.alt = item.caption || `Aylin anısı ${index + 1}`;
+    }
+    content.appendChild(bigMedia);
+    if (caption) caption.textContent = item.caption || "";
+    lightbox.classList.remove("hidden");
+  }
+
+  function closeLightbox() {
+    const lightbox = document.getElementById("gallery-lightbox");
+    const content = document.getElementById("gallery-lightbox-content");
+    if (!lightbox) return;
+    lightbox.classList.add("hidden");
+    if (content) content.innerHTML = ""; // stop any playing video
+  }
+
+  const lightboxCloseBtn = document.getElementById("gallery-lightbox-close");
+  const lightboxEl = document.getElementById("gallery-lightbox");
+  if (lightboxCloseBtn) lightboxCloseBtn.addEventListener("click", closeLightbox);
+  if (lightboxEl) {
+    lightboxEl.addEventListener("click", (e) => {
+      if (e.target === lightboxEl) closeLightbox();
+    });
+  }
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeLightbox();
+  });
+
   // drag-to-scroll (mouse + touch via pointer events)
   let isDragging = false;
+  let dragMoved = false;
   let startX = 0;
   let startScroll = 0;
 
   wrap.addEventListener("pointerdown", (e) => {
     isDragging = true;
+    dragMoved = false;
     wrap.classList.add("dragging");
     startX = e.clientX;
     startScroll = wrap.scrollLeft;
@@ -213,6 +256,7 @@ function initGallery() {
 
   wrap.addEventListener("pointermove", (e) => {
     if (!isDragging) return;
+    if (Math.abs(e.clientX - startX) > 5) dragMoved = true;
     wrap.scrollLeft = startScroll - (e.clientX - startX);
   });
 

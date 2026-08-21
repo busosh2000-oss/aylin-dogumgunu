@@ -18,8 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const GRAVITY = 0.7;
   const JUMP_VELOCITY = -9.2;
-  const BASE_SPEED = 3.2;
-  const MAX_SPEED_BONUS = 4;
+  const BASE_SPEED = 2.6;
+  const MAX_SPEED = 7.5;
+  const ACCEL_PER_FRAME = 0.0035; // steady ramp, like the original runner game
 
   const COLORS = {
     sky1: "#1a0a2e",
@@ -34,6 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
     legs: "#2d1451",
     obstacle: "#0f0819",
     obstacleEdge: "#6b2fb3",
+    dragonBody: "#4d8c3f",
+    dragonWing: "#2f5c26",
+    dragonEye: "#ffd166",
   };
 
   const STARS = Array.from({ length: 18 }, () => ({
@@ -51,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
   bestEl.textContent = `EN İYİ: ${bestScore}`;
 
   let state = "ready"; // "ready" | "running" | "over"
-  let player, obstacles, distance, score, speed, groundOffset, legFrame, legTimer, lastTime, nextSpawnIn, rafId;
+  let player, obstacles, distance, score, speed, timeAlive, groundOffset, legFrame, legTimer, wingFrame, wingTimer, lastTime, nextSpawnIn, rafId;
 
   function resetGame() {
     player = {
@@ -66,9 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
     distance = 0;
     score = 0;
     speed = BASE_SPEED;
+    timeAlive = 0;
     groundOffset = 0;
     legFrame = 0;
     legTimer = 0;
+    wingFrame = 0;
+    wingTimer = 0;
     nextSpawnIn = 90 + Math.random() * 60;
   }
 
@@ -117,13 +124,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function spawnObstacle() {
-    const types = [
-      { w: 6, h: 12 },
-      { w: 8, h: 18 },
-      { w: 5, h: 22 },
-    ];
-    const t = types[Math.floor(Math.random() * types.length)];
-    obstacles.push({ x: W + 10, w: t.w, h: t.h });
+    if (Math.random() < 0.3) {
+      // flying dragon: sometimes low (jump over it), sometimes high (just run under it)
+      const flyingHigh = Math.random() < 0.5;
+      const h = 9;
+      const y = flyingHigh ? 12 + Math.random() * 8 : GROUND_Y - h;
+      obstacles.push({ x: W + 10, w: 15, h, y, type: "dragon" });
+    } else {
+      const types = [
+        { w: 6, h: 12 },
+        { w: 8, h: 18 },
+        { w: 5, h: 22 },
+      ];
+      const t = types[Math.floor(Math.random() * types.length)];
+      obstacles.push({ x: W + 10, w: t.w, h: t.h, y: GROUND_Y - t.h, type: "block" });
+    }
     nextSpawnIn = 80 + Math.random() * 90;
   }
 
@@ -176,12 +191,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function drawObstacles() {
     obstacles.forEach((o) => {
-      const oy = GROUND_Y - o.h;
+      if (o.type === "dragon") {
+        drawDragon(o);
+        return;
+      }
       ctx.fillStyle = COLORS.obstacleEdge;
-      ctx.fillRect(o.x - 1, oy - 1, o.w + 2, o.h + 2);
+      ctx.fillRect(o.x - 1, o.y - 1, o.w + 2, o.h + 2);
       ctx.fillStyle = COLORS.obstacle;
-      ctx.fillRect(o.x, oy, o.w, o.h);
+      ctx.fillRect(o.x, o.y, o.w, o.h);
     });
+  }
+
+  function drawDragon(o) {
+    const x = o.x;
+    const y = o.y;
+    // body + tail
+    ctx.fillStyle = COLORS.dragonBody;
+    ctx.fillRect(x + 4, y + 2, 9, 4);
+    ctx.fillRect(x, y + 3, 4, 2);
+    // head
+    ctx.fillRect(x + 12, y, 3, 3);
+    ctx.fillStyle = COLORS.dragonEye;
+    ctx.fillRect(x + 14, y + 1, 1, 1);
+    // wings — alternate up/down for a flapping effect
+    ctx.fillStyle = COLORS.dragonWing;
+    if (wingFrame === 0) {
+      ctx.fillRect(x + 5, y - 3, 6, 3);
+      ctx.fillRect(x + 6, y + 6, 5, 3);
+    } else {
+      ctx.fillRect(x + 6, y, 5, 2);
+      ctx.fillRect(x + 6, y + 4, 5, 2);
+    }
   }
 
   function rectsOverlap(a, b) {
@@ -189,7 +229,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function update(dt) {
-    speed = BASE_SPEED + Math.min(score * 0.0025, MAX_SPEED_BONUS);
+    timeAlive += dt;
+    speed = Math.min(BASE_SPEED + timeAlive * ACCEL_PER_FRAME, MAX_SPEED);
 
     // physics
     player.velocityY += GRAVITY * dt;
@@ -207,6 +248,13 @@ document.addEventListener("DOMContentLoaded", () => {
       legFrame = legFrame === 0 ? 1 : 0;
     }
 
+    // dragon wing-flap animation
+    wingTimer += dt;
+    if (wingTimer > 6) {
+      wingTimer = 0;
+      wingFrame = wingFrame === 0 ? 1 : 0;
+    }
+
     // world movement
     groundOffset = (groundOffset + speed * dt) % 10000;
     distance += speed * dt;
@@ -222,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // collision (a slightly inset hitbox keeps it feeling fair)
     const hitbox = { x: player.x + 3, y: player.y + 2, w: player.w - 6, h: player.h - 3 };
     for (const o of obstacles) {
-      const obox = { x: o.x, y: GROUND_Y - o.h, w: o.w, h: o.h };
+      const obox = { x: o.x, y: o.y, w: o.w, h: o.h };
       if (rectsOverlap(hitbox, obox)) {
         endGame();
         break;

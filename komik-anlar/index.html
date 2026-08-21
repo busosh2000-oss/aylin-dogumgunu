@@ -25,6 +25,7 @@
           <li><a href="../mektuplar/" data-page="letters">Mektuplar</a></li>
           <li><a href="../sarkilar/" data-page="music">Şarkılar</a></li>
           <li><a href="../oyun/" data-page="game">Oyun</a></li>
+          <li><a href="../opucuk-oyunu/" data-page="kissgame">Öpücük Oyunu</a></li>
         </ul>
       </div>
     </div>
@@ -33,7 +34,7 @@
   <main>
     <section class="section gallery-section">
       <h1 class="section-title">Aylin'in Anları</h1>
-      <p class="section-sub">Kaydırarak gez, bir kareye dokun, öne çıksın ✨</p>
+      <p class="section-sub">Kaydırarak gez, bir kareye dokun, büyüsün ✨</p>
       <div id="wavy-counter" class="wavy-counter">1 / 1</div>
       <div id="wavy-gallery" class="wavy-gallery">
         <div id="wavy-track" class="wavy-track"></div>
@@ -45,6 +46,13 @@
     <img class="footer-wisteria pixel-art" src="../assets/wisteria.svg" alt="" aria-hidden="true" />
     <p>made with 💜 for Aylin</p>
   </footer>
+
+  <!-- GALLERY LIGHTBOX -->
+  <div id="gallery-lightbox" class="gallery-lightbox hidden">
+    <button id="gallery-lightbox-close" class="modal-close" aria-label="Kapat">✕</button>
+    <div id="gallery-lightbox-content" class="gallery-lightbox-content"></div>
+    <p id="gallery-lightbox-caption" class="gallery-lightbox-caption"></p>
+  </div>
 
   <script src="../js/data.js"></script>
   <script src="../js/main.js"></script>

@@ -151,7 +151,7 @@ const QUIZ_QUESTIONS = [
   {
     question: "Anaokulunda Aylin'in yaşadığı olay?",
     options: ["Kafası dolaba sıkıştırıldı", "Yemeğine çöpe atıldı", "Dövüldü"],
-    correct: 0,
+    correct: 1,
   },
   {
     question: "Aylin aşağıdaki 7 ölümcül günahtan hangisidir?",
@@ -170,7 +170,7 @@ const QUIZ_QUESTIONS = [
   },
   {
     question: "Aylin'in babaannesinin adı nedir?",
-    options: ["Zinnur", "Zeliha", "Mukaddes"],
+    options: ["Zinnure", "Zeliha", "Mukaddes"],
     correct: 0,
   },
   {
