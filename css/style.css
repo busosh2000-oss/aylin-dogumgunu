@@ -364,6 +364,7 @@ body::before {
   display: none;
   flex-direction: column;
   min-width: 220px;
+  max-width: calc(100vw - 16px);
   background: var(--bg-darkest);
   border: 2px solid var(--purple-4);
   box-shadow: 6px 6px 0 var(--shadow-hard);
