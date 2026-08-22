@@ -248,7 +248,8 @@ const QUIZ_RESULT_TIERS = [
 const LETTERS = [
   {
     name: "Buse",
-    text: "Sevgili Aylin,\n\nBu placeholder bir mektup metni — gerçek mektubunla değiştirilecek.\nAma şunu bilmeni isterim ki bu sitedeki her piksel, seni ne kadar sevdiğimizin küçük bir kanıtı. İyi ki varsın.\n\nSeni seven,\nBuse",
+    text: "You're basically 30!\n\n-Buse",
+    image: "../assets/letters/buse-mektup.jpg",
   },
   {
     name: "Berkay",
