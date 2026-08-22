@@ -249,7 +249,7 @@ const LETTERS = [
   {
     name: "Buse",
     text: "You're basically 30!\n\n-Buse",
-    image: "../assets/letters/buse-mektup.jpg",
+    image: "../assets/letters/buse_mektup.jpeg",
   },
   {
     name: "Berkay",
