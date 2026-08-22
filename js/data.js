@@ -248,7 +248,8 @@ const QUIZ_RESULT_TIERS = [
 const LETTERS = [
   {
     name: "Buse",
-    text: "Sevgili Aylin,\n\nBu placeholder bir mektup metni — gerçek mektubunla değiştirilecek.\nAma şunu bilmeni isterim ki bu sitedeki her piksel, seni ne kadar sevdiğimizin küçük bir kanıtı. İyi ki varsın.\n\nSeni seven,\nBuse",
+    text: "You're basically 30!\n\n-Buse",
+    image: "../assets/letters/buse-mektup.jpg",
   },
   {
     name: "Berkay",
@@ -276,8 +277,8 @@ const LETTERS = [
     text: "İyi ki doğdun! Hayatımıza kattığın kahkahaların ve güzel enerjin hiç eksilmesin. Daha nice birlikte güleceğimiz, eğleneceğimiz ve tabii ki bol bol morlu günlere! İyi ki varsın. 💜\n\n-Mıstık",
   },
   {
-    name: "Arkadaş 8",
-    text: "Aylin'ciğim,\n\n[Placeholder — gerçek mektup metniyle değiştirilecek.]\n\nDoğum günün kutlu olsun!",
+    name: "Barış",
+    text: "Vay be, tanışalı kaç sene geçmiş artık saymaya üşeniyorum dfgdfhgdfh, onca senedir komşu olunca, aramızda 30 saniyelik mesafe olduğunda bunu fark etmiyorduk ama o mesafe artınca değerini anlamaya başlıyor insan :D yeri geldi sevindik yeri geldi üzüldük, sonucunda bu kadar iyi kalpli insanların senin için toplandığı günlere kadar geldik. Bütün arkadaşlarınla, eşinle ve kedilerinizle daimi mutluluk diliyorum dgko.\n\n-Barış",
   },
 ];
 
