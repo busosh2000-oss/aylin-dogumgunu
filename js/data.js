@@ -99,6 +99,21 @@ const GALLERY_ITEMS = [
   { type: "image", src: "../assets/gallery/80.jpg", caption: "" },
   { type: "image", src: "../assets/gallery/81.jpg", caption: "" },
   { type: "image", src: "../assets/gallery/82.jpg", caption: "" },
+  { type: "image", src: "../assets/gallery/83.jpg", caption: "Alelade bir foto gibi dursa da fare gibi şirin çıkmışsın!!! #KAWAII" },
+  { type: "image", src: "../assets/gallery/84.jpg", caption: "Bebek metal’de bir bebek" },
+  { type: "image", src: "../assets/gallery/85.jpg", caption: "First night out as a trio 🩷" },
+  { type: "image", src: "../assets/gallery/86.jpg", caption: "Grinch Aylin stealing the birthday" },
+  { type: "image", src: "../assets/gallery/87.jpg", caption: "İkimiz tek olduğumuz bu fotolara da #twinlove" },
+  { type: "image", src: "../assets/gallery/88.jpg", caption: "MJ 💜" },
+  { type: "image", src: "../assets/gallery/89.jpg", caption: "Master of invisible blow job" },
+  { type: "video", src: "../assets/gallery/90.mp4", caption: "Rage queen" },
+  { type: "image", src: "../assets/gallery/91.jpg", caption: "" },
+  { type: "image", src: "../assets/gallery/92.jpg", caption: "" },
+  { type: "image", src: "../assets/gallery/93.jpg", caption: "çok güzelsin ama evlisin" },
+  { type: "image", src: "../assets/gallery/94.jpg", caption: "fıstıkım" },
+  { type: "image", src: "../assets/gallery/95.jpg", caption: "ilk gün" },
+  { type: "image", src: "../assets/gallery/96.jpg", caption: "sıpsıradan bir gün" },
+  { type: "image", src: "../assets/gallery/97.jpg", caption: "sıradan başka bir gün" },
 ];
 
 /* ============================================================
@@ -231,20 +246,20 @@ const LETTERS = [
     image: "../assets/letters/su-monkey.jpg",
   },
   {
-    name: "Arkadaş 4",
-    text: "Aylin'ciğim,\n\n[Placeholder mektup metni. Gerçek anılar ve sözler buraya gelecek.]\n\nİyi ki doğdun!",
+    name: "Senoşun",
+    text: "Dearest Aylin-san'ımm\n\nお誕生日おめでとう、アイリン♡ yaniiii otanjōbi omedetō, Airin  ♡ iyi ki doğdun!!! Yaz gibi bıcır bıcır, kıpır kıpır ve sıcacık biridir benim bacımmm…\nSonsuza dek gleek'iz, bacıyız ve beraberiz, umarım her yıl ve her yaşında!!\nBu yıl sana umarım istediğin her şeyi ve daha fazlasını getirir, çünkü her şeyin en ama en güzelini hakediyorsun! Senii, minnoş olmanı ve renkli saçlarını çok seviyorum!\nUmarım bir gün hep beraber Tokyo'ya gideriz till then \"いつまでも笑顔で。itsumademo egao de…\n\n-Senoşun",
   },
   {
-    name: "Arkadaş 5",
-    text: "Sevgili Aylin,\n\n[Bu alana senin için özel bir mektup yazılacak.]\n\nSevgiyle,",
+    name: "İloş",
+    text: "Aylomm 💞\nhayatım boyunca çok az insanı en derinleeerden bir yerden bu kadar  safe hissedip sevmişimdir. Sen o nadir insanlardan birisin. Gördüğüm en doğal en kendine has en pembeee ve  en marjinal karaktersinnn. 💗 Etrafına yaydığın o tatlış enerjini asla kaybetme ve sakın normalleşmeee. İyi ki doğdun bebeğim seni çok seviyorumm🩷💜\n\n-İloş",
   },
   {
-    name: "Arkadaş 6",
-    text: "Aylin,\n\n[Placeholder metin — gerçek mektupla değiştirilecek.]\n\nNice mutlu yıllara!",
+    name: "Habibe",
+    text: "Aylooom,\nBizim seninle yılbaşında tanışmamız asssla şans eseri değildi, yılbaşının uğuru olarak artık hep beraberiz. Seni çok seviyorum hayatımın en güzel renklerinden birisin. Aylinin moru patlıcandır🍆🍆\nSana özel şiirimm\n\nArtık üzülme hiç bir şeye\nYanında artık senin bu cimcime\nLeylekler seni iyiki getirdi\nİnsanların hepsi bu yaşta bu kadar güzel mi\nNeşen olsun her zaman daimi\n\n-Kişisel Psikologun Habibe😝",
   },
   {
-    name: "Arkadaş 7",
-    text: "Sevgili Aylin,\n\n[Bu mektubun gerçek hali daha sonra eklenecek.]\n\nSeni çok seviyoruz.",
+    name: "Mıstık",
+    text: "İyi ki doğdun! Hayatımıza kattığın kahkahaların ve güzel enerjin hiç eksilmesin. Daha nice birlikte güleceğimiz, eğleneceğimiz ve tabii ki bol bol morlu günlere! İyi ki varsın. 💜\n\n-Mıstık",
   },
   {
     name: "Arkadaş 8",
