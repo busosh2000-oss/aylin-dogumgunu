@@ -247,7 +247,7 @@ const LETTERS = [
   },
   {
     name: "Senoşun",
-    text: "Dearest Aylin-san'ımm\n\nお誕生日おめでとう、アイリン♡ yaniiii otanjōbi omedetō, Airin  ♡ iyi ki doğdun!!! Yaz gibi bıcır bıcır, kıpır kıpır ve sıcacık biridir benim bacımmm…\nSonsuza dek gleek'iz, bacıyız ve beraberiz, umarım her yıl ve her yaşında!!\nBu yıl sana umarım istediğin her şeyi ve daha fazlasını getirir, çünkü her şeyin en ama en güzelini hakediyorsun! Senii, minnoş olmanı ve renkli saçlarını çok seviyorum!\nUmarım bir gün hep beraber Tokyo'ya gideriz till then \"いつまでも笑顔で。itsumademo egao de…\n\n-Senoşun",
+    text: "Dearest Aylin-san'ımm\n\nお誕生日おめでとう、アイリン♡ yaniiii otanjōbi omedetō, Airin  ♡ iyi ki doğdun!!! Yaz gibi bıcır bıcır, kıpır kıpır ve sıcacık biridir benim bacımmm…\nSonsuza dek gleek'iz, bacıyız ve beraberiz, her yıl ve her yaşında!!\nBu yıl umarım sana istediğin her şeyi ve daha fazlasını getirir, çünkü her şeyin en ama en güzelini hakediyorsun! Senii, minnoş olmanı ve renkli saçlarını çok seviyorum!\nUmarım bir gün hep beraber Tokyo'ya gideriz till then \"いつまでも笑顔で。itsumademo egao de…\n\n-Senoşun",
   },
   {
     name: "İloş",

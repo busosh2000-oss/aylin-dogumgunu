@@ -112,7 +112,30 @@ function initNavDropdown() {
 
   toggle.addEventListener("click", () => {
     dropdown.classList.toggle("open");
+    if (dropdown.classList.contains("open")) keepMenuOnScreen();
   });
+
+  function keepMenuOnScreen() {
+    // reset any previous override before re-measuring
+    menu.style.left = "";
+    menu.style.right = "0";
+    const rect = menu.getBoundingClientRect();
+    const margin = 8;
+    if (rect.left < margin) {
+      // the menu would spill off the left edge — pin it to the toggle's
+      // left edge instead of hanging it off the right edge
+      menu.style.right = "auto";
+      menu.style.left = "0";
+      const rect2 = menu.getBoundingClientRect();
+      if (rect2.right > window.innerWidth - margin) {
+        // still too wide for the viewport — clamp its width instead
+        menu.style.left = margin - dropdown.getBoundingClientRect().left + "px";
+      }
+    } else if (rect.right > window.innerWidth - margin) {
+      menu.style.right = "auto";
+      menu.style.left = window.innerWidth - margin - dropdown.getBoundingClientRect().left - rect.width + "px";
+    }
+  }
 
   document.addEventListener("click", (e) => {
     if (!dropdown.contains(e.target)) dropdown.classList.remove("open");

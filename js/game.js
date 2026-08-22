@@ -359,6 +359,17 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     { passive: false }
   );
+  // overlay sits directly on top of the canvas, so taps on the "başla" text
+  // hit the overlay first — listen here too or mobile taps go nowhere
+  overlay.addEventListener("click", handleInput);
+  overlay.addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault();
+      handleInput();
+    },
+    { passive: false }
+  );
 
   window.addEventListener("keydown", (e) => {
     if (e.code === "Space" || e.code === "ArrowUp") {
