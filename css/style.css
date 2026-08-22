@@ -291,20 +291,37 @@ body::before {
 }
 
 /* ==========================================================
-   2b) HOME PLACEHOLDER NOTE SECTION
+   2b) HOME NOTE SECTION
    ========================================================== */
 .home-note-section {
   text-align: center;
 }
 
-.home-note-placeholder {
+.home-note-text {
   max-width: 640px;
   margin: 0 auto;
-  border: 3px dashed var(--purple-4);
-  padding: 48px 24px;
-  color: var(--lavender);
-  font-size: 1.2rem;
-  opacity: 0.8;
+  background: var(--purple-1);
+  border: 3px solid var(--purple-4);
+  box-shadow: 8px 8px 0 var(--shadow-hard);
+  padding: 40px 32px;
+  color: var(--text-light);
+  font-size: 1.3rem;
+  line-height: 1.65;
+  text-align: left;
+}
+
+.home-note-text p {
+  margin-bottom: 20px;
+}
+
+.home-note-text p:last-child {
+  margin-bottom: 0;
+}
+
+.home-note-aside {
+  font-style: italic;
+  color: var(--lavender-light);
+  font-size: 1.15rem;
 }
 
 /* ==========================================================
