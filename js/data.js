@@ -166,7 +166,7 @@ const QUIZ_QUESTIONS = [
   {
     question: "Anaokulunda Aylin'in yaşadığı olay?",
     options: ["Kafası dolaba sıkıştırıldı", "Yemeği çöpe atıldı", "Dövüldü"],
-    correct: 1,
+    correct: 0,
   },
   {
     question: "Aylin aşağıdaki 7 ölümcül günahtan hangisidir?",
@@ -211,6 +211,20 @@ const QUIZ_QUESTIONS = [
     question: "Aylin'in en sevmediği Buse hangisidir?",
     options: ["Gıcık Buse", "Mutsuz Buse", "Aç Buse", "Huysuz Buse", "Hepsi"],
     correct: 4,
+  },
+  {
+    question: "Aylin'in en sevdiği film hangisidir?",
+    options: ["Wall-e", "Mamma Mia", "Ölü Gelin"],
+    correct: 0,
+  },
+  {
+    question: "Aylin'in çocukluk doğum günü partisine neden gidilmemiştir?",
+    options: [
+      "Siteden başka bir çocuk havuz partisi verdiği için",
+      "Babaannesi sevilmediği için",
+      "Barbie konseptli olmadığı için",
+    ],
+    correct: 0,
   },
 ];
 
